@@ -6,11 +6,11 @@ import { Link, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 
 const linkClass =
-    'flex items-center gap-2 font-light px-3 py-2 hover:bg-neutral-700 hover:no-underline active:bg-neutral-600 rounded-sm text-base'
+    'flex items-center gap-2 font-light px-3 py-2 hover:bg-neutral-700 hover:no-underline active:bg-neutral-600 rounded-sm text-base';
 
 export default function Sidebar() {
     return (
-        <div className="flex flex-col bg-neutral-800 w-60 p-3 text-white rounded-md">
+        <div className="flex flex-col bg-neutral-900 w-60 p-3 text-white rounded-md rounded-l-none">
             <div className="flex items-center px-1 py-3 ">
                 <FcElectronics fontSize={30} />
                 <span className="text-neutral-100 text-lg px-2">Whitelist Checker</span>
@@ -42,7 +42,7 @@ function SidebarLink({ item }) {
         <Link
             to={item.path}
             className={classNames(
-                pathname === item.path ? 'text-white bg-slate-400' : 'text-neutral-400',
+                pathname === item.path ? 'text-white bg-slate-700 hover:bg-slate-700' : 'text-neutral-400',
                 'rounded-lg',
                 linkClass
             )}
