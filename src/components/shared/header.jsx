@@ -11,27 +11,28 @@ export default function Header() {
     const { pathname } = useLocation();
 
     return (
-        <div className="bg-white h-16 px-4 flex justify-between items-center border-b border-gray-200">
-            <div className="relative">
+        <div className=" bg-gray-800 h-16 px-4 flex justify-end items-center shadow-lg rounded-b-lg">
+            {/* <div className="relative">
                 <HiOutlineSearch fontSize={20} className="text-gray-400 absolute top-1/2 -translate-y-1/2 left-2 " />
-                {/*this element is absolute because the parent is relative and we want it to be inside the next child element 'input'*/}
+                this element is absolute because the parent is relative and we want it to be inside the next child element 'input'
                 <input
                     type="text"
                     placeholder="Search..."
                     className="text-sm focus:outline-none active:outline-none border border-gray-300 w-[24rem] h-10 pl-8 pr-4 rounded-md"
                 />
-            </div>
+            </div> */}
 
             <div className="flex items-center justify-between gap-2 ">
                 {/* here I used Popover from Headless UI - npm install @headlessui/react */}
+                
                 {/* Notif Popover */}
                 <Popover className="relative">
                     {({ open }) => (
                         <>
                             <Popover.Button
                                 className={classNames(
-                                    open && 'bg-gray-200',
-                                    'p-1.5 rounded-sm inline-flex items-center text-gray-600 hover:text-opacity-500 hover:text-gray-800 focus:outline-none active:bg-gray-100 '
+                                    open && 'bg-gray-300 text-gray-600',
+                                    'p-1.5 rounded-sm inline-flex items-center text-gray-400 hover:text-gray-600 hover:text-opacity-500 focus:outline-none active:bg-gray-100 '
                                 )}
                             >
                                 <HiOutlineAnnotation fontSize={22} />
@@ -65,8 +66,8 @@ export default function Header() {
                         <>
                             <Popover.Button
                                 className={classNames(
-                                    open && 'bg-gray-200',
-                                    'p-1.5 rounded-sm inline-flex items-center text-gray-600 hover:text-opacity-500 hover:text-gray-800 focus:outline-none active:bg-gray-100 '
+                                    open && 'bg-gray-300 text-gray-600',
+                                    'p-1.5 rounded-sm inline-flex items-center text-gray-400 hover:text-gray-600 hover:text-opacity-500 focus:outline-none active:bg-gray-100 '
                                 )}
                             >
                                 <BiWallet fontSize={22} />
@@ -99,7 +100,7 @@ export default function Header() {
                     )}
                 </Popover>
 
-                {/* Menu item fron Headless UI */}
+                {/* User Menu item fron Headless UI */}
                 <Menu as="div" className="relative">
                     <div>
                         <Menu.Button className="">
@@ -128,10 +129,10 @@ export default function Header() {
                                 <Menu.Item>
                                     {({ active }) => (
                                         <button
-                                            onClick={() => navigate('/')}
+                                            onClick={() => navigate('/profile')}
                                             className={classNames(
                                                 // active ? 'bg-gray-200' : '',
-                                                pathname === '/' ? 'bg-gray-200' : '',
+                                                pathname === '/profile' ? 'bg-gray-200' : '',
                                                 'group flex w-full items-center rounded-sm px-2 py-2 text-sm text-gray-900 font-medium',
                                             )}
                                         >

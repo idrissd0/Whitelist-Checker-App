@@ -1,5 +1,4 @@
 import {
-    HiOutlineViewGrid,
     HiOutlineCube,
     HiOutlineShoppingCart,
     HiOutlineUsers,
@@ -7,44 +6,24 @@ import {
     HiOutlineAnnotation,
     HiOutlineQuestionMarkCircle,
     HiOutlineCog
-} from 'react-icons/hi'
+} from 'react-icons/hi';
+import { BiSolidDashboard } from 'react-icons/bi';
+import { FaDiagramProject } from 'react-icons/fa6';
 
 export const DASHBOARD_SIDEBAR_LINKS = [
     {
         key: 'dashboard',
         label: 'Dashboard',
         path: '/',
-        icon: <HiOutlineViewGrid />
+        icon: <BiSolidDashboard />,
+        bg: ''
     },
     {
-        key: 'products',
-        label: 'Products',
-        path: '/products',
-        icon: <HiOutlineCube />
-    },
-    {
-        key: 'orders',
-        label: 'Orders',
-        path: '/orders',
-        icon: <HiOutlineShoppingCart />
-    },
-    {
-        key: 'customers',
-        label: 'Customers',
-        path: '/customers',
-        icon: <HiOutlineUsers />
-    },
-    {
-        key: 'transactions',
-        label: 'Transactions',
-        path: '/transactions',
-        icon: <HiOutlineDocumentText />
-    },
-    {
-        key: 'messages',
-        label: 'Messages',
-        path: '/messages',
-        icon: <HiOutlineAnnotation />
+        key: 'projects',
+        label: 'Projects',
+        path: '/projects',
+        icon: <FaDiagramProject />,
+        bg: ''
     }
 ]
 
@@ -53,12 +32,14 @@ export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
         key: 'settings',
         label: 'Settings',
         path: '/settings',
-        icon: <HiOutlineCog />
+        icon: <HiOutlineCog />,
+        bg: ''
     },
     {
         key: 'support',
         label: 'Help & Support',
         path: '/support',
-        icon: <HiOutlineQuestionMarkCircle />
+        icon: <HiOutlineQuestionMarkCircle />,
+        bg: ''
     }
 ]

@@ -4,7 +4,7 @@ import Sidebar from './sidebar';
 import Header from './header';
 export default function Layout() {
     return (
-        <div className="flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden">
+        <div className="flex flex-row bg-gray-800 h-screen w-screen overflow-hidden">
             <Sidebar />
             <div className='w-screen'>
                 <Header />
