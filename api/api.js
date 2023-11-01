@@ -2,12 +2,13 @@ var Express = require('express')
 var Mongoclient = require('mongodb').MongoClient
 var cors = require('cors')
 const multer = require('multer')
+const { ObjectId } = require('mongodb')
 
-const username = encodeURIComponent('Driss') // MongoDB username
-const password = encodeURIComponent('IP.ic@tc0sp') // MongoDB password
+const username = encodeURIComponent('Driss')
+const password = encodeURIComponent('IP.ic@tc0sp')
 const cluster = 'cluster0.pesps5y.mongodb.net' // The cluster name or hostname
-const authSource = 'admin' // The authentication source (usually "admin")
-const authMechanism = 'SCRAM-SHA-1' // The authentication mechanism (usually "SCRAM-SHA-1")
+const authSource = 'admin' // The authentication source
+const authMechanism = 'SCRAM-SHA-1' // The authentication mechanism
 
 var app = Express()
 app.use(cors())
@@ -15,21 +16,8 @@ app.use(cors())
 // Conncetion string of mongodb
 const uri = `mongodb+srv://${username}:${password}@${cluster}/${authSource}?retryWrites=true&w=majority&authMechanism=${authMechanism}`
 
-// note that the password of the mongodb cluster is correct, Ihope this string remind me to check the password LOL
-
 var DATABASENAME = 'supafire'
 var database
-
-app.listen(5040, () => {
-    Mongoclient.connect(uri, (error, client) => {
-        if (error) {
-            console.error('Mongo DB Connection Error:', error)
-        } else {
-            database = client.db(DATABASENAME)
-            console.log('Mongo DB Connection Successful')
-        }
-    })
-})
 
 app.get('/api/supafire/projects', (request, response) => {
     database
@@ -97,6 +85,26 @@ app.post('/api/supafire/addUser', multer().none(), (request, response) => {
     })
 })
 
+app.get('/api/supafire/getProjects/:userId', (request, response) => {
+    const userId = request.params.userId
+
+    // Convert the userId to ObjectId
+    const userIdObject = new ObjectId(userId)
+
+    // Find the user by their ID
+    database.collection('Users2').findOne({ _id: userIdObject }, (error, user) => {
+        if (error) {
+            response.status(500).json('Error occurred while retrieving projects.')
+        } else if (!user) {
+            response.status(404).json('User not found.')
+        } else {
+            // Get the user's projects
+            const projects = user.projects
+            response.status(200).json(projects)
+        }
+    })
+})
+
 app.delete('/api/supafire/deleteProject', (request, response) => {
     const projectId = request.query.id // Retrieve the 'id' query parameter
 
@@ -112,6 +120,17 @@ app.delete('/api/supafire/deleteProject', (request, response) => {
             }
         }
     )
+})
+
+app.listen(5040, () => {
+    Mongoclient.connect(uri, (error, client) => {
+        if (error) {
+            console.error('Mongo DB Connection Error:', error)
+        } else {
+            database = client.db(DATABASENAME)
+            console.log('Mongo DB Connection Successful')
+        }
+    })
 })
 
 // node api.js
