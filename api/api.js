@@ -19,6 +19,26 @@ const uri = `mongodb+srv://${username}:${password}@${cluster}/${authSource}?retr
 var DATABASENAME = 'supafire'
 var database
 
+app.get('/api/supafire/getProjects/:userId', (request, response) => {
+    const userId = request.params.userId
+
+    // Convert the userId to ObjectId
+    const userIdObject = new ObjectId(userId)
+
+    // Find the user by their ID
+    database.collection('Users2').findOne({ _id: userIdObject }, (error, user) => {
+        if (error) {
+            response.status(500).json('Error occurred while retrieving projects.')
+        } else if (!user) {
+            response.status(404).json('User not found.')
+        } else {
+            // Get the user's projects
+            const projects = user.projects
+            response.status(200).json(projects)
+        }
+    })
+})
+
 app.get('/api/supafire/projects', (request, response) => {
     database
         .collection('projects')
@@ -85,25 +105,7 @@ app.post('/api/supafire/addUser', multer().none(), (request, response) => {
     })
 })
 
-app.get('/api/supafire/getProjects/:userId', (request, response) => {
-    const userId = request.params.userId
 
-    // Convert the userId to ObjectId
-    const userIdObject = new ObjectId(userId)
-
-    // Find the user by their ID
-    database.collection('Users2').findOne({ _id: userIdObject }, (error, user) => {
-        if (error) {
-            response.status(500).json('Error occurred while retrieving projects.')
-        } else if (!user) {
-            response.status(404).json('User not found.')
-        } else {
-            // Get the user's projects
-            const projects = user.projects
-            response.status(200).json(projects)
-        }
-    })
-})
 
 app.delete('/api/supafire/deleteProject', (request, response) => {
     const projectId = request.query.id // Retrieve the 'id' query parameter
