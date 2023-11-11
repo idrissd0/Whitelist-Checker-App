@@ -124,7 +124,7 @@ app.delete('/api/supafire/deleteProject', (request, response) => {
     )
 })
 
-app.listen(5040, () => {
+app.listen(3010, () => {
     Mongoclient.connect(uri, (error, client) => {
         if (error) {
             console.error('Mongo DB Connection Error:', error)
