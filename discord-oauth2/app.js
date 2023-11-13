@@ -59,7 +59,7 @@ app.get('/auth/discord', async (req, res) => {
             userid: userDataResponse.data.id,
             icon: userDataResponse.data.avatar,
             // email: userDataResponse.data.email,
-            avatar: `https://cdn.discordapp.com/avatars/${userid}/${icon}.png`
+            avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`
         }
         return res.send(`
             <div style="margin: 300px auto;
@@ -70,8 +70,7 @@ app.get('/auth/discord', async (req, res) => {
             font-family: sans-serif;"
             >
                 <h3>Welcome ${user.username}</h3>
-                <h5>Welcome ${user.userid}</h5>
-                <span>Email: ${user.email}</span>
+                <h5>user Id: ${user.userid}</h5>
                 
                 <img src="${user.avatar}"/>
             </div>
