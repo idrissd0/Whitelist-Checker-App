@@ -6,6 +6,8 @@
 .pnp.js
 /api/node_modules
 /discord-oauth2/node_modules
+/server/node_modules
+/a-server/node_modules
 # testing
 /coverage
 
