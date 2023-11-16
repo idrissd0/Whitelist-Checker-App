@@ -50,13 +50,59 @@ app.get('/auth/discord', async (req, res) => {
             // email: userDataResponse.data.email,
             avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`
         }
+        console.log('User :', user)
+
+        // Check if the user already exists in MongoDB
+        const existingUser = await database.collection('Users').findOne({ credential: userDataResponse.data.id })
+
+        if (existingUser) {
+            // User exists, proceed with the redirect
+            res.redirect(
+                `http://localhost:3000/?username=${user.username}&credential=${user.credential}&avatar=${user.avatar}`
+            )
+        } else {
+            // User does not exist, add new user to MongoDB
+            const newUser = {
+                credential: user.credential,
+                username: user.username,
+                avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
+                projects: []
+            }
+            // Add the new user to the MongoDB collection
+            console.log('New User :', newUser)
+            await database.collection('Users').insertOne(newUser)
+
+            // Redirect to the React.js route with new user data as URL parameters
+            res.redirect(
+                `http://localhost:3000/?username=${user.username}&userid=${user.credential}&avatar=${user.avatar}`
+            )
+        }
 
         // Redirect to the React.js route with user data as URL parameters
-        res.redirect(`http://localhost:3000/?username=${user.username}&credential=${user.credential}&avatar=${user.avatar}`)
+        // res.redirect(
+        //     `http://localhost:3000/?username=${user.username}&credential=${user.credential}&avatar=${user.avatar}`
+        // )
     } catch (error) {
         console.log('Error', error)
         return res.send('Some error occurred! ')
     }
+})
+
+app.get('/api/user/projects/:credential', (req, res) => {
+    const userCredential = reu.params.credential
+
+    // Find the user by his credentials
+    database.collection('Users').findOne({ credential: userCredential }, (error, user) => {
+        if (error) {
+            res.status(500).json('Error occured while retrieving projects.')
+        } else if (!user) {
+            res.status(400).json('User not found', user)
+        } else {
+            // get the user's projects
+            const projects = user.projects
+            res.status(200).json(projects)
+        }
+    })
 })
 
 // Connecting the server & MongoDB database * * * * * * * * * * * * * *
