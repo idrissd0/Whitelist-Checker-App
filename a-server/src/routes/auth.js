@@ -1,0 +1,73 @@
+const express = require('express')
+const router = require('express').Router()
+const axios = require('axios')
+
+router.get('/', (req, res) => {
+    res.send(`
+        <div style="margin: 300px auto;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: sans-serif;"
+        >
+            <h3>Welcome to Discord OAuth NodeJS App</h3>
+            <p>Click on the below button to get started!</p>
+            <a
+                href="https://discord.com/api/oauth2/authorize?client_id=1172086920940093450&redirect_uri=http%3A%2F%2Flocalhost%3A3020%2Fauth%2Fdiscord&response_type=code&scope=identify"
+                style="
+                    outline: none;
+                    padding: 10px;
+                    border: none;
+                    font-size: 20px;
+                    margin-top: 20px;
+                    border-radius: 8px;
+                    background: #6D81CD;
+                    cursor:pointer;
+                    text-decoration: none;
+                    color: white;
+                "
+            >
+            Login with Discord</a>
+        </div>
+    `)
+})
+
+router.get('/auth/discord', async (req, res) => {
+    const code = req.query.code
+    const params = new URLSearchParams()
+    let user
+
+    params.append('client_id', '1172086920940093450')
+    params.append('client_secret', '62lD33OmKSDG_O1PDYKL6p_IwYOMENoZ')
+    params.append('grant_type', 'authorization_code')
+    params.append('code', code)
+    params.append('redirect_uri', 'http://localhost:3020/auth/discord')
+
+    try {
+        const response = await axios.post('https://discord.com/api/oauth2/token', params)
+        const { access_token, token_type } = response.data
+        const userDataResponse = await axios.get('https://discord.com/api/users/@me', {
+            headers: {
+                authorization: `${token_type} ${access_token}`
+            }
+        })
+
+        user = {
+            username: userDataResponse.data.username,
+            userid: userDataResponse.data.id,
+            icon: userDataResponse.data.avatar,
+            avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`
+        }
+
+        // Redirect to the React.js route with user data as URL parameters
+        res.redirect(
+            `http://localhost:3000/authorized?username=${user.username}&userid=${user.userid}&avatar=${user.avatar}`
+        )
+    } catch (error) {
+        console.log('Error', error)
+        return res.send('Some error occurred! ')
+    }
+})
+
+module.exports = router
