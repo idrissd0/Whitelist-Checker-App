@@ -28,7 +28,7 @@ export default function Header() {
         setUser(userData || {})
 
         // Now you can use the user state in your component
-        console.log(userData)
+        // console.log(userData)
     }, [])
 
     return (

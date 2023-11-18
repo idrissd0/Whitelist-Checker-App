@@ -1,43 +1,85 @@
 import { MdAdd } from 'react-icons/md'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import User from '../models/user'
-export default function Projects() {
-    const API_URL = 'http://localhost:3020/api/user/projects/:credential'
+import axios from 'axios'
 
-    const [projects, setProjects] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [data, setData] = useState(null)
-    const user = []
+export default function Projects() {
+    const [projects, setProjects] = useState([{
+        description: "",
+        owner: "",
+        title: "",
+        whitelistedWallets: [
+          "",
+          "",
+          ""
+        ]
+      }])
+    const [data, setData] = useState(false)
+    const [user, setUser] = useState({
+        credential: '',
+        username: '',
+        avatar: '',
+        projects: []
+    })
 
     useEffect(() => {
-        // Step 1: Retrieve user data from localStorage
-        const storedUserData = localStorage.getItem('user')
+        // try {
+        //     const storedUserData = localStorage.getItem('user');
+        
+        //     if (storedUserData) {
+        //       const parsedUserData = JSON.parse(storedUserData);
+        //       setUser(parsedUserData);
+        //       console.log(user)
+        //       const credential = user.credential  // string
+        //     //   getProjects(credential)
+        //     }
+        //   } catch (error) {
+        //     console.error('Error parsing or setting user data:', error);
+        // }
+          
+        // const fetchUserProjects = async () => {
+        //     try {
+        //         const response = await fetch('http://localhost:3020/api/user/projects/534072795232206867', {
+        //             method: 'GET',
+        //             headers: {
+        //             'Content-Type': 'application/json',
+        //             // Add any additional headers if needed, such as authentication headers
+        //             },
+        //         });
+        
+        //         if (!response.ok) {
+        //             throw new Error(`Failed to fetch user projects: ${response.status}`);
+        //         }
+        
+        //         const projectsData = await response.json();
+        //         console.log()
+        //         setProjects(projectsData);
+        //         setData(true)
+        //     } catch (error) {
+        //     console.error('Error fetching user projects:', error.message);
+        //     // Handle errors, show a message to the user, etc.
+        //     }
+        // };
 
-        // Step 2: Parse the JSON string to convert it to a JavaScript object
-        const user = JSON.parse(storedUserData)
-
-        // Step 3: Create an array and add the user object to it
-        const userArray = [user]
-
-        // Now you can use the userArray in your component
-        console.log(userArray)
+        // fetchUserProjects();
     }, [])
 
-    const fetchProjects = async () => {
-        try {
-            setLoading(true)
+    // const getProjects = async (credentials) =>{
+    //     console.log('***testing getProjects Function***')
+    //     const url = `http://localhost:3020/api/user/projects/534072795232206867`
+    //     console.log(url)
+    //     try {
+    //         const response = await fetch(url)
+    //         // const data = await response.json()
+    //         console.log(data)
 
-            // Simulate an API call or any asynchronous operation
-            const response = await fetch(API_URL)
-            const result = await response.json()
+    //         // setProjects(data || {})
 
-            setData(result)
-            setLoading(false)
-        } catch (error) {
-            console.error('Error fetching data:', error)
-            setLoading(false)
-        }
-    }
+    //         // console.log(projects)
+    //     }   catch (error) {
+    //         console.log(error)
+    //       }
+    // }
 
     return (
         <div className="h-screen">

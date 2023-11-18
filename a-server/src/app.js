@@ -89,14 +89,14 @@ app.get('/auth/discord', async (req, res) => {
 })
 
 app.get('/api/user/projects/:credential', (req, res) => {
-    const userCredential = reu.params.credential
+    const userCredential = req.params.credential
 
     // Find the user by his credentials
     database.collection('Users').findOne({ credential: userCredential }, (error, user) => {
         if (error) {
             res.status(500).json('Error occured while retrieving projects.')
         } else if (!user) {
-            res.status(400).json('User not found', user)
+            res.status(400).json({Error:'User not found', user: null})
         } else {
             // get the user's projects
             const projects = user.projects

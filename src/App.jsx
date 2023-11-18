@@ -31,7 +31,7 @@ function App() {
             // Optionally, you can redirect the user to another page after storing the data
             // Example: window.location.href = '/dashboard';
         }
-        console.log('localstorage data',localStorage.getItem('user'))
+        // console.log('localstorage data',localStorage.getItem('user'))
 
     }, []) // The empty dependency array ensures that this effect runs only once on component mount
 
