@@ -5,6 +5,7 @@ import Dashboard from './components/dashboard'
 import Projects from './components/projects'
 import Login from './components/Auth/Login'
 import AuthGuard from './AuthGuard' // Adjust the path based on your project structure
+import DisplayProject from './components/displayProject'
 
 function App() {
     
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="/projects" element={<Projects />} />
+                    <Route path='/displayProject' element={<DisplayProject />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
             </Routes>

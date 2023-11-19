@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export default function Dashboard() {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState(null)
 
     useEffect(() => {
         // Retrieve user information from localStorage
@@ -14,13 +14,15 @@ export default function Dashboard() {
         }
     }, [])
     return (
-        <div className="p-4">
-            <h1>Dashboard page</h1>
+        <div className="p-4 text-white">
             {userData ? (
-                <div>
+                <div className="flex flex-col justify-center items-center py-8 gap-5">
                     <p>Username: {userData.username}</p>
-                    <p>User ID: {userData.usercredentials}</p>
-                    <img src={userData.avatar} alt="User Avatar" />
+                    <p>User Credentials: {userData.credential}</p>
+                    <p className='flex flex-col items-center'>
+                        User avatar:
+                        <img src={userData.avatar} alt="User Avatar" />
+                    </p>
                 </div>
             ) : (
                 <p>No user data found in localStorage.</p>
